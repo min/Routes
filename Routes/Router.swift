@@ -11,8 +11,6 @@ import Foundation
 public class Router {
     public static let defaultScheme: String = "__scheme__"
 
-    public var shouldFallback: Bool = false
-
     public private(set) lazy var `default` = routes(for: Router.defaultScheme)
 
     private var mapping: [String: Routes] = [:]
@@ -24,7 +22,7 @@ public class Router {
 
         var didRoute: Bool = routes.route(url: url, parameters: parameters)
 
-        if !didRoute && shouldFallback && !routes.isGlobal {
+        if !didRoute && routes.shouldFallback && !routes.isGlobal {
             didRoute = `default`.route(url: url, parameters: parameters)
         }
 
@@ -36,7 +34,7 @@ public class Router {
 
         var didRoute: Bool = routes.canRoute(url: url)
 
-        if !didRoute && shouldFallback && !routes.isGlobal {
+        if !didRoute && routes.shouldFallback && !routes.isGlobal {
             didRoute = `default`.canRoute(url: url)
         }
 

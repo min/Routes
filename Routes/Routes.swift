@@ -13,6 +13,7 @@ public class Routes {
 
     public let scheme: String
 
+    public var shouldFallback: Bool = false
     public var shouldDecodePlusSymbols: Bool = true
     public var alwaysTreatsHostAsPathComponent: Bool = false
 

@@ -340,16 +340,16 @@ class RoutesTests: XCTestCase {
         router.default.add(pattern: "/user/view/:userID", handler: handler)
         router["namespaceTest1"].add(pattern: "/test", handler: handler)
         router["namespaceTest2"].add(pattern: "/test", handler: handler)
-        router.shouldFallback = true
+        router["namespaceTest2"].shouldFallback = true
 
         route(urlString: "namespaceTest1://user/view/min")
         assertNoLastMatch()
 
         route(urlString: "namespaceTest2://user/view/min")
         assertAnyRouteMatched()
-        //        validate(scheme: Router.defaultScheme)
-        //        validateParameter(count: 1)
-        //        validateParameter(key: "userID", value: "min")
+        assertScheme(Router.defaultScheme)
+        assertParameterCount(1)
+        assertParameter(key: "userID", value: "min")
     }
 
     func testForRouteExistence() {
