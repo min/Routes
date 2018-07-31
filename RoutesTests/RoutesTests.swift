@@ -301,11 +301,11 @@ class RoutesTests: XCTestCase {
     }
 
     func testBlockReturnValue() {
-        router.default.add(pattern: "/return/:value", handler: { [weak self] parameters in
+        router.default.add(pattern: "/return/:value") { [weak self] parameters in
             self?.lastMatch = parameters
 
-            return (parameters?["value"] as? String) == "yes"
-        })
+            return (parameters["value"] as? String) == "yes"
+        }
 
         route(urlString: "tests://return/no")
         assertNoLastMatch()

@@ -9,7 +9,7 @@
 import Foundation
 
 public class Routes {
-    public typealias Handler = ([String: Any]?) -> Bool
+    public typealias Handler = ([String: Any]) -> Bool
 
     public let scheme: String
 
