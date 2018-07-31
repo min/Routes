@@ -35,9 +35,9 @@ class RoutesTests: XCTestCase {
     func testRoutesArray() {
         let handler = defaultRouteHandler
 
-        router.default.add(pattern: "/global1", handler: handler)
-        router.default.add(pattern: "/global2", handler: handler)
-        router.default.add(pattern: "/global3", handler: handler)
+        router.default["/global1"] = handler
+        router.default["/global2"] = handler
+        router.default["/global3"] = handler
 
         let globalRoutes = router.default.definitions
 
@@ -47,8 +47,8 @@ class RoutesTests: XCTestCase {
         XCTAssertEqual(globalRoutes[1].pattern, "/global2")
         XCTAssertEqual(globalRoutes[2].pattern, "/global3")
 
-        router["scheme"].add(pattern: "/scheme1", handler: handler)
-        router["scheme"].add(pattern: "/scheme2", handler: handler)
+        router["scheme"]["/scheme1"] = handler
+        router["scheme"]["/scheme2"] = handler
 
         let schemeRoutes: [Definition] = router["scheme"].definitions
 
@@ -562,7 +562,7 @@ class RoutesTests: XCTestCase {
     }
 
     func testOptionalRoutesAtEnd() {
-        router.default.add(pattern: "/path/:thing(/new)(/anotherpath/:anotherthing)", handler: defaultRouteHandler)
+        router.default["/path/:thing(/new)(/anotherpath/:anotherthing)"] = defaultRouteHandler
 
         XCTAssertEqual(router.default.definitions.count, 4)
 

@@ -70,6 +70,19 @@ public class Routes {
         _definitions.removeAll()
     }
 
+    public subscript(pattern: String) -> Handler? {
+        get {
+            return nil
+        }
+        set {
+            if newValue == nil {
+                remove(pattern: pattern)
+            } else {
+                add(pattern: pattern, handler: newValue)
+            }
+        }
+    }
+
     public func add(pattern: String, priority: Int = 0, handler: Handler? = nil) {
         let optionalRoutePatterns: [String] = pattern.rte_expandOptionalRoutePatterns()
 
