@@ -58,17 +58,17 @@ Routes supports setting up routes within a specific URL scheme. Routes that are 
 ```swift
 let router = Router()
 
-router.default.add(pattern: "foo") { parameters in
+router.default["foo"] = { parameters in
     // This block is called if the scheme is not 'thing' or 'stuff' (see below)	
     return true
 }
 
-router["thing"].add(pattern: "foo") { parameters in
+router["thing"]["foo"] = { parameters in
     // This block is called for thing://foo
     return true
 }
 
-router["stuff"].add(pattern: "foo") { parameters in
+router["stuff"]["foo"] = { parameters in
     // This block is called for stuff://foo
     return true
 }
@@ -79,7 +79,7 @@ This example shows that you can declare the same routes in different schemes and
 Continuing with this example, if you were to add the following route:
 
 ```swift
-router.default.add(pattern: "/global") { parameters in
+router.default["/global"] = { parameters in
     return true
 }
 ```
@@ -87,7 +87,7 @@ router.default.add(pattern: "/global") { parameters in
 and then try to route the URL `thing://global`, it would not match because that route has not been declared within the `thing` scheme but has instead been declared within the global scheme (which we'll assume is how the developer wants it). However, you can easily change this behavior by setting the following property to `true`:
 
 ```swift
-router["thing"].shouldFallbackToGlobalRoutes = true
+router["thing"].shouldFallback = true
 ```
 
 This tells Routes that if a URL cannot be routed within the `thing` scheme (aka, it starts with `thing:` but no appropriate route can be found), try to recover by looking for a matching route in the global routes scheme as well. After setting that property to `true`, the URL `thing://global` would be routed to the `/global` handler block.
