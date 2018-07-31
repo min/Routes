@@ -79,8 +79,6 @@ This example shows that you can declare the same routes in different schemes and
 Continuing with this example, if you were to add the following route:
 
 ```swift
-let router = Router()
-
 router.default.add(pattern: "/global") { parameters in
     return true
 }
@@ -89,8 +87,6 @@ router.default.add(pattern: "/global") { parameters in
 and then try to route the URL `thing://global`, it would not match because that route has not been declared within the `thing` scheme but has instead been declared within the global scheme (which we'll assume is how the developer wants it). However, you can easily change this behavior by setting the following property to `true`:
 
 ```swift
-let router = Router()
-
 router["thing"].shouldFallbackToGlobalRoutes = true
 ```
 
@@ -104,8 +100,6 @@ Routes supports setting up routes that will match an arbitrary number of path co
 For example, the following route would be triggered for any URL that started with `/wildcard/`, but would be rejected by the handler if the next component wasn't `joker`.
 
 ```swift
-let router = Router()
-
 router.default.add(pattern: "/wildcard/*") { parameters in
     let components = parameters[Definition.Keys.wildcard]
 
