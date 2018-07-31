@@ -19,10 +19,6 @@ public class Routes {
 
     public var unmatchedHandler: ((Routes, URL?, [String: Any]?) -> Void)?
 
-    public var isGlobal: Bool {
-        return scheme == Router.defaultScheme
-    }
-
     private var _definitions: [Definition] = []
 
     public init(scheme: String) {
@@ -43,19 +39,14 @@ public class Routes {
         if definition.priority == 0 || _definitions.isEmpty {
             _definitions.append(definition)
         } else {
-            var addedRoute: Bool = false
-
             for (index, existingRoute) in _definitions.enumerated() where existingRoute.priority < definition.priority {
                 _definitions.insert(definition, at: index)
-                addedRoute = true
                 break
             }
-
-            if !addedRoute {
+            if !_definitions.contains(definition) {
                 _definitions.append(definition)
             }
         }
-
         definition.configure(scheme: scheme)
     }
 

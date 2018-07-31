@@ -22,7 +22,7 @@ public class Router {
 
         var didRoute: Bool = routes.route(url: url, parameters: parameters)
 
-        if !didRoute && routes.shouldFallback && !routes.isGlobal {
+        if !didRoute && routes.shouldFallback && routes !== `default` {
             didRoute = `default`.route(url: url, parameters: parameters)
         }
 
@@ -34,7 +34,7 @@ public class Router {
 
         var didRoute: Bool = routes.canRoute(url: url)
 
-        if !didRoute && routes.shouldFallback && !routes.isGlobal {
+        if !didRoute && routes.shouldFallback && routes !== `default` {
             didRoute = `default`.canRoute(url: url)
         }
 
