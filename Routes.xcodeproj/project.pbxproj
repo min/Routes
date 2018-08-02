@@ -20,6 +20,7 @@
 		A4CF016F21103B0C00A3208A /* Routes.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4CF016E21103B0C00A3208A /* Routes.swift */; };
 		A4CF017121103B1E00A3208A /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4CF017021103B1E00A3208A /* Router.swift */; };
 		A4CF01752110470600A3208A /* URLComponents+Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4CF01742110470600A3208A /* URLComponents+Utilities.swift */; };
+		A4DC5B0A211392B100EA78DB /* Resource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4DC5B09211392B100EA78DB /* Resource.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		A4CF016E21103B0C00A3208A /* Routes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Routes.swift; sourceTree = "<group>"; };
 		A4CF017021103B1E00A3208A /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		A4CF01742110470600A3208A /* URLComponents+Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLComponents+Utilities.swift"; sourceTree = "<group>"; };
+		A4DC5B09211392B100EA78DB /* Resource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resource.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +102,7 @@
 				A4CF0147211035FD00A3208A /* Routes.h */,
 				A4CF016E21103B0C00A3208A /* Routes.swift */,
 				A4CF0161211038C900A3208A /* Subpath.swift */,
+				A4DC5B09211392B100EA78DB /* Resource.swift */,
 			);
 			path = Routes;
 			sourceTree = "<group>";
@@ -254,6 +257,7 @@
 				A4CF01602110364000A3208A /* String+Utilities.swift in Sources */,
 				A4CF016F21103B0C00A3208A /* Routes.swift in Sources */,
 				A4CF016B21103AE500A3208A /* Request.swift in Sources */,
+				A4DC5B0A211392B100EA78DB /* Resource.swift in Sources */,
 				A4CF0162211038C900A3208A /* Subpath.swift in Sources */,
 				A4CF01752110470600A3208A /* URLComponents+Utilities.swift in Sources */,
 				A4CF017121103B1E00A3208A /* Router.swift in Sources */,

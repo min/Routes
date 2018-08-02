@@ -17,25 +17,25 @@ public class Router {
 
     public init() {}
 
-    public func route(url: URL, parameters: [String: Any]) -> Bool {
-        let routes: Routes = self.routes(for: url)
+    public func route(resource: Resource, parameters: [String: Any]) -> Bool {
+        let routes: Routes = self.routes(for: resource)
 
-        var didRoute: Bool = routes.route(url: url, parameters: parameters)
+        var didRoute: Bool = routes.route(resource: resource, parameters: parameters)
 
         if !didRoute && routes.shouldFallback && routes !== `default` {
-            didRoute = `default`.route(url: url, parameters: parameters)
+            didRoute = `default`.route(resource: resource, parameters: parameters)
         }
 
         return didRoute
     }
 
-    public func canRoute(url: URL) -> Bool {
-        let routes: Routes = self.routes(for: url)
+    public func canRoute(resource: Resource) -> Bool {
+        let routes: Routes = self.routes(for: resource)
 
-        var didRoute: Bool = routes.canRoute(url: url)
+        var didRoute: Bool = routes.canRoute(resource: resource)
 
         if !didRoute && routes.shouldFallback && routes !== `default` {
-            didRoute = `default`.canRoute(url: url)
+            didRoute = `default`.canRoute(resource: resource)
         }
 
         return didRoute
@@ -47,8 +47,8 @@ public class Router {
         }
     }
 
-    public func routes(for url: URL) -> Routes {
-        guard let scheme = url.scheme else {
+    public func routes(for resource: Resource) -> Routes {
+        guard let scheme = resource.url?.scheme else {
             return self.default
         }
         return mapping[scheme] ?? self.default

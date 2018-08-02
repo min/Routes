@@ -353,13 +353,10 @@ class RoutesTests: XCTestCase {
     }
 
     func testForRouteExistence() {
-        let shouldHaveRouteURL: URL = URL(string: "tests:/test")!
-        let shouldNotHaveRouteURL: URL = URL(string: "tests:/dfjkbsdkjfbskjdfb/sdasd")!
-
         router.default.add(pattern: "/test", handler: defaultRouteHandler)
 
-        XCTAssertTrue(router.default.canRoute(url: shouldHaveRouteURL), "Should state it can route known URL")
-        XCTAssertFalse(router.default.canRoute(url: shouldNotHaveRouteURL), "Should not state it can route unknown URL")
+        XCTAssertTrue(router.default.canRoute(resource: "tests:/test"), "Should state it can route known URL")
+        XCTAssertFalse(router.default.canRoute(resource: "tests:/dfjkbsdkjfbskjdfb/sdasd"), "Should not state it can route unknown URL")
     }
 
     func testRouteRemoval() {
@@ -698,7 +695,7 @@ class RoutesTests: XCTestCase {
 
     private func route(url: URL, parameters: [String: Any] = [:]) {
         self.lastMatch = nil
-        self.didRoute = router.route(url: url, parameters: parameters)
+        self.didRoute = router.route(resource: url, parameters: parameters)
     }
 
     private func reset() {

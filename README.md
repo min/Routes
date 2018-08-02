@@ -31,7 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
-        return router.route(url: url)
+        return router.route(resource: url)
     }
 }
 
@@ -40,8 +40,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 After adding a route for `/user/view/:user_id`, the following call will cause the handler block to be called with a dictionary containing `{"user_id": "min"}`:
 
 ```swift
-let url = URL(string: "myapp://user/view/min")!
-router.route(url: url)
+router.route(resource: "myapp://user/view/min")
 ```
 
 ### Handler Block Chaining ###

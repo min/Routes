@@ -12,9 +12,8 @@ struct Request {
     struct Options: OptionSet {
         let rawValue: Int
 
-        static let none: Options = .init(rawValue: 1 << 0)
-        static let decodePlusSymbols: Options = .init(rawValue: 1 << 1)
-        static let treatHostAsPathComponent: Options = .init(rawValue: 1 << 2)
+        static let decodePlusSymbols: Options = .init(rawValue: 1 << 0)
+        static let treatHostAsPathComponent: Options = .init(rawValue: 1 << 1)
     }
 
     let url: URL

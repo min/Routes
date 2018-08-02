@@ -110,15 +110,19 @@ public class Routes {
         }
     }
 
-    public func canRoute(url: URL) -> Bool {
-        return route(url: url, parameters: [:], executeRouteBlock: false)
+    public func canRoute(resource: Resource) -> Bool {
+        return route(resource: resource, parameters: [:], executeRouteBlock: false)
     }
 
-    public func route(url: URL, parameters: [String: Any] = [:]) -> Bool {
-        return route(url: url, parameters: parameters, executeRouteBlock: true)
+    public func route(resource: Resource, parameters: [String: Any] = [:]) -> Bool {
+        return route(resource: resource, parameters: parameters, executeRouteBlock: true)
     }
 
-    private func route(url: URL, parameters: [String: Any], executeRouteBlock: Bool) -> Bool {
+    private func route(resource: Resource, parameters: [String: Any], executeRouteBlock: Bool) -> Bool {
+        guard let url = resource.url else {
+            return false
+        }
+
         var didRoute: Bool = false
 
         var options: Request.Options = []
