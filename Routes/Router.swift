@@ -18,7 +18,8 @@ public class Router {
 
     public init() {}
 
-    public func route(resource: Resource, parameters: [String: Any]) -> Bool {
+    @discardableResult
+    public func route(to resource: Resource, parameters: [String: Any] = [:]) -> Bool {
         let routes: Routes = self.routes(for: resource)
 
         var didRoute: Bool = routes.route(resource: resource, parameters: parameters)
@@ -30,7 +31,7 @@ public class Router {
         return didRoute
     }
 
-    public func canRoute(resource: Resource) -> Bool {
+    public func canRoute(to resource: Resource) -> Bool {
         let routes: Routes = self.routes(for: resource)
 
         var didRoute: Bool = routes.canRoute(resource: resource)
@@ -79,7 +80,7 @@ public class Router {
         mapping.removeAll()
     }
 
-    public var definitionMapping: [String: [Definition]] {
+    var definitionMapping: [String: [Definition]] {
         var result: [String: [Definition]] = [:]
 
         mapping.forEach { mapping in

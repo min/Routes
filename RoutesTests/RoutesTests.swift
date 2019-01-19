@@ -741,7 +741,7 @@ class RoutesTests: XCTestCase {
 
     private func route(url: URL, parameters: [String: Any] = [:]) {
         self.lastMatch = nil
-        self.didRoute = router.route(resource: url, parameters: parameters)
+        self.didRoute = router.route(to: url, parameters: parameters)
     }
 
     private func reset() {
