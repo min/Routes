@@ -1,8 +1,5 @@
 language: swift
 osx_image: xcode10.1
 cache: bundler
-before_install:
-  - bundle install
-  - bundle update
 script:
   - bundle exec fastlane ios test
