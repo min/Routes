@@ -9,19 +9,19 @@
 import Foundation
 
 extension Array {
-    func rte_allOrderedCombinations() -> [[Element]] {
+    func route_allOrderedCombinations() -> [[Element]] {
         guard !isEmpty, let lastObject = self.last else {
             return [[]]
         }
         let subarray: [Any] = Array(self[0..<(count - 1)])
-        let subarrayCombinations: [[Any]] = subarray.rte_allOrderedCombinations()
+        let subarrayCombinations: [[Any]] = subarray.route_allOrderedCombinations()
         var combinations: [[Any]] = subarrayCombinations
 
-        subarrayCombinations.forEach({
-            var subarrayCombos: [Any] = $0
+        subarrayCombinations.forEach { combination in
+            var subarrayCombos: [Any] = combination
             subarrayCombos.append(lastObject)
             combinations.append(subarrayCombos)
-        })
+        }
 
         return (combinations as? [[Element]]) ?? []
     }

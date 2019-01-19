@@ -12,7 +12,7 @@ struct Subpath: Equatable, Hashable {
     let subpathComponents: [String]
     let isOptionalSubpath: Bool
 
-    var hashValue: Int {
-        return subpathComponents.reduce(isOptionalSubpath.hashValue) { $0 ^ $1.hashValue }
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(subpathComponents)
     }
 }

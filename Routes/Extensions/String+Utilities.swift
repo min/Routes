@@ -9,7 +9,7 @@
 import Foundation
 
 extension String {
-    func rte_variableValue(decodePlusSymbols: Bool) -> String {
+    func route_variableValue(decodePlusSymbols: Bool) -> String {
         guard decodePlusSymbols else {
             return self
         }
@@ -17,11 +17,11 @@ extension String {
         return self.replacingOccurrences(of: "+", with: " ", options: [.literal], range: (startIndex..<endIndex))
     }
 
-    func rte_trimmedPathComponents() -> [String] {
+    func route_trimmedPathComponents() -> [String] {
         return trimmingCharacters(in: .init(charactersIn: "/")).components(separatedBy: "/")
     }
 
-    func rte_subpathsForPatterns() -> [Subpath] {
+    func route_subpathsForPatterns() -> [Subpath] {
         var subpaths: [Subpath] = []
 
         let scanner: Scanner = Scanner(string: self)
@@ -46,7 +46,7 @@ extension String {
                 if preOptionalSubpath.length > 0 && preOptionalSubpath != ")" && preOptionalSubpath != "/" {
                     subpaths.append(
                         Subpath(
-                            subpathComponents: String(preOptionalSubpath).rte_trimmedPathComponents(),
+                            subpathComponents: String(preOptionalSubpath).route_trimmedPathComponents(),
                             isOptionalSubpath: false
                         )
                     )
@@ -68,7 +68,7 @@ extension String {
             if let optionalSubpath = optionalSubpath, optionalSubpath.length > 0 {
                 subpaths.append(
                     Subpath(
-                        subpathComponents: String(optionalSubpath).rte_trimmedPathComponents(),
+                        subpathComponents: String(optionalSubpath).route_trimmedPathComponents(),
                         isOptionalSubpath: true
                     )
                 )
@@ -78,12 +78,12 @@ extension String {
         return subpaths
     }
 
-    func rte_expandOptionalRoutePatterns() -> [String] {
+    func route_expandOptionalRoutePatterns() -> [String] {
         guard range(of: "(") != nil else {
             return []
         }
 
-        let subpaths: [Subpath] = rte_subpathsForPatterns()
+        let subpaths: [Subpath] = route_subpathsForPatterns()
 
         guard !subpaths.isEmpty else {
             return []
@@ -91,23 +91,23 @@ extension String {
 
         let requiredSubpaths: Set<Subpath> = Set<Subpath>(subpaths.filter({ !$0.isOptionalSubpath }))
 
-        let allSubpathCombinations: [[Subpath]] = subpaths.rte_allOrderedCombinations()
+        let allSubpathCombinations: [[Subpath]] = subpaths.route_allOrderedCombinations()
 
-        let validSubpathCombinations: [[Subpath]] = allSubpathCombinations.filter({
-            requiredSubpaths.isSubset(of: $0)
-        })
+        let validSubpathCombinations: [[Subpath]] = allSubpathCombinations.filter { subpath in
+            requiredSubpaths.isSubset(of: subpath)
+        }
 
-        var validSubpathRouteStrings: [String] = validSubpathCombinations.map({ subpaths in
+        var validSubpathRouteStrings: [String] = validSubpathCombinations.map { subpaths in
             var routePattern: String = "/"
 
-            subpaths.forEach({ subpath in
+            subpaths.forEach { subpath in
                 let subpathString: String = subpath.subpathComponents.joined(separator: "/")
 
                 routePattern = (routePattern as NSString).appendingPathComponent(subpathString)
-            })
+            }
 
             return routePattern
-        })
+        }
 
         validSubpathRouteStrings = validSubpathRouteStrings.sorted(by: { lhs, rhs -> Bool in
             lhs.count > rhs.count

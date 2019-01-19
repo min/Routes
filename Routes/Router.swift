@@ -45,6 +45,7 @@ public class Router {
         get {
             return routes(for: scheme)
         }
+        set {}
     }
 
     public func routes(for resource: Resource) -> Routes {
@@ -76,9 +77,9 @@ public class Router {
     public var definitionMapping: [String: [Definition]] {
         var result: [String: [Definition]] = [:]
 
-        mapping.forEach({
-            result[$0.key] = $0.value.definitions
-        })
+        mapping.forEach { mapping in
+            result[mapping.key] = mapping.value.definitions
+        }
 
         return result
     }

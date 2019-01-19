@@ -70,7 +70,7 @@ public class Definition {
                 let name: String = variableName(for: patternComponent)
                 let value: String = variableValue(for: urlComponent)
 
-                variables[name] = value.rte_variableValue(
+                variables[name] = value.route_variableValue(
                     decodePlusSymbols: request.options.contains(.decodePlusSymbols)
                 )
             } else if isPatternComponentWildcard {
@@ -143,15 +143,15 @@ public class Definition {
 
         let decodePlusSymbols: Bool = request.options.contains(.decodePlusSymbols)
 
-        request.queryParams.rte_queryParams(decodePlusSymbols: decodePlusSymbols).forEach({
-            parameters[$0.key] = $0.value
-        })
-        routeVariables.forEach({
-            parameters[$0.key] = $0.value
-        })
-        request.additionalParams.forEach({
-            parameters[$0.key] = $0.value
-        })
+        request.queryParams.route_queryParams(decodePlusSymbols: decodePlusSymbols).forEach { key, value in
+            parameters[key] = value
+        }
+        routeVariables.forEach { key, value in
+            parameters[key] = value
+        }
+        request.additionalParams.forEach { key, value in
+            parameters[key] = value
+        }
 
         parameters[Definition.Keys.pattern] = pattern
         parameters[Definition.Keys.url] = request.url.absoluteString
@@ -172,12 +172,10 @@ extension Definition: Equatable, Hashable {
             lhs.priority == rhs.priority
     }
 
-    public var hashValue: Int {
-        let value: Int =
-            pattern.hashValue ^
-            priority.hashValue ^
-            (scheme ?? "").hashValue
-
-        return patternPathComponents.reduce(value) { $0 ^ $1.hashValue }
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(pattern)
+        hasher.combine(priority)
+        hasher.combine(scheme)
+        hasher.combine(patternPathComponents)
     }
 }

@@ -75,14 +75,14 @@ public class Routes {
     }
 
     public func add(pattern: String, priority: Int = 0, handler: Handler? = nil) {
-        let optionalRoutePatterns: [String] = pattern.rte_expandOptionalRoutePatterns()
+        let optionalRoutePatterns: [String] = pattern.route_expandOptionalRoutePatterns()
 
         let definition: Definition = Definition(pattern: pattern, priority: priority, handler: handler)
 
         if !optionalRoutePatterns.isEmpty {
-            optionalRoutePatterns.forEach({ pattern in
+            optionalRoutePatterns.forEach { pattern in
                 add(definition: Definition(pattern: pattern, priority: priority, handler: handler))
-            })
+            }
             return
         }
 
@@ -90,20 +90,20 @@ public class Routes {
     }
 
     public func add(patterns: [String], handler: Handler? = nil) {
-        patterns.forEach({
-            add(pattern: $0, handler: handler)
-        })
+        patterns.forEach { pattern in
+            add(pattern: pattern, handler: handler)
+        }
     }
 
     public func remove(pattern: String) {
         var routeIndex: Int?
 
-        _definitions.enumerated().forEach({ index, route in
+        _definitions.enumerated().forEach { index, route in
             if route.pattern == pattern {
                 routeIndex = index
                 return
             }
-        })
+        }
 
         if let index = routeIndex {
             _definitions.remove(at: index)

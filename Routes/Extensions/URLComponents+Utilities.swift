@@ -9,7 +9,7 @@
 import Foundation
 
 extension URLComponents {
-    func rte_queryParams() -> [String: Any] {
+    func route_queryParams() -> [String: Any] {
         var parameters: [String: Any] = [:]
 
         let items: [URLQueryItem] = self.queryItems ?? []
@@ -31,7 +31,7 @@ extension URLComponents {
         return parameters
     }
 
-    static func rte_path(components: inout URLComponents, treatsHostAsPathComponent: Bool) -> String {
+    static func route_path(components: inout URLComponents, treatsHostAsPathComponent: Bool) -> String {
         if let host = components.host, !host.isEmpty && (treatsHostAsPathComponent || (host != "localhost" && host.range(of: ".") == nil)) {
             let percentEncodedHost: String = components.percentEncodedHost ?? ""
             components.host = "/"

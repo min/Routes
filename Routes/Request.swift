@@ -28,12 +28,12 @@ struct Request {
         self.options = options
 
         if var components = URLComponents(string: url.absoluteString) {
-            self.pathComponents = URLComponents.rte_path(
+            self.pathComponents = URLComponents.route_path(
                 components: &components,
                 treatsHostAsPathComponent: options.contains(.treatHostAsPathComponent)
-            ).rte_trimmedPathComponents()
+            ).route_trimmedPathComponents()
 
-            self.queryParams = components.rte_queryParams()
+            self.queryParams = components.route_queryParams()
         } else {
             self.pathComponents = []
 

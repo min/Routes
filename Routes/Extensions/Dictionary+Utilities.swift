@@ -9,7 +9,7 @@
 import Foundation
 
 extension Dictionary where Key == String, Value == Any {
-    func rte_queryParams(decodePlusSymbols: Bool) -> Dictionary {
+    func route_queryParams(decodePlusSymbols: Bool) -> Dictionary {
         guard decodePlusSymbols else {
             return self
         }
@@ -20,11 +20,11 @@ extension Dictionary where Key == String, Value == Any {
             if let array = value as? NSArray {
                 let variables: [String] = array
                     .compactMap({ $0 as? String })
-                    .map({ $0.rte_variableValue(decodePlusSymbols: decodePlusSymbols) })
+                    .map({ $0.route_variableValue(decodePlusSymbols: decodePlusSymbols) })
 
                 queryParams[key] = variables
             } else if let string = value as? String {
-                queryParams[key] = string.rte_variableValue(decodePlusSymbols: decodePlusSymbols)
+                queryParams[key] = string.route_variableValue(decodePlusSymbols: decodePlusSymbols)
             } else {
                 assert(false, "Unexpected query parameter type: \(type(of: value))")
             }
