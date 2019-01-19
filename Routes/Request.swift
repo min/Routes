@@ -9,13 +9,6 @@
 import Foundation
 
 struct Request {
-    struct Options: OptionSet {
-        let rawValue: Int
-
-        static let decodePlusSymbols: Options = .init(rawValue: 1 << 0)
-        static let treatHostAsPathComponent: Options = .init(rawValue: 1 << 1)
-    }
-
     let url: URL
     let queryParams: [String: Any]
     let pathComponents: [String]

@@ -8,16 +8,27 @@
 
 import Foundation
 
+public struct Options: OptionSet {
+    public let rawValue: Int
+
+    public init(rawValue: Int) {
+        self.rawValue = rawValue
+    }
+
+    public static let decodePlusSymbols: Options = .init(rawValue: 1 << 0)
+    public static let treatHostAsPathComponent: Options = .init(rawValue: 1 << 1)
+}
+
 public class Routes {
     public typealias Handler = ([String: Any]) -> Bool
 
     public let scheme: String
 
     public var shouldFallback: Bool = false
-    public var shouldDecodePlusSymbols: Bool = true
-    public var alwaysTreatsHostAsPathComponent: Bool = false
 
-    public var unmatchedHandler: ((Routes, URL?, [String: Any]?) -> Void)?
+    public var options: Options = [
+        .decodePlusSymbols
+    ]
 
     private var _definitions: [Definition] = []
 
@@ -26,8 +37,8 @@ public class Routes {
     }
 
     public func reset() {
-        shouldDecodePlusSymbols = true
-        alwaysTreatsHostAsPathComponent = false
+        options = [.decodePlusSymbols]
+
         removeAllDefinitions()
     }
 
@@ -35,7 +46,7 @@ public class Routes {
         return _definitions
     }
 
-    private func add(definition: Definition) {
+    private func append(definition: Definition) {
         if definition.priority == 0 || _definitions.isEmpty {
             _definitions.append(definition)
         } else {
@@ -74,6 +85,19 @@ public class Routes {
         }
     }
 
+    public func add(definition: Definition) {
+        let optionalRoutePatterns: [String] = definition.pattern.route_expandOptionalRoutePatterns()
+
+        if !optionalRoutePatterns.isEmpty {
+            optionalRoutePatterns.forEach { pattern in
+                append(definition: Definition(pattern: pattern, priority: definition.priority, handler: definition.handler))
+            }
+            return
+        }
+
+        append(definition: definition)
+    }
+
     public func add(pattern: String, priority: Int = 0, handler: Handler? = nil) {
         let optionalRoutePatterns: [String] = pattern.route_expandOptionalRoutePatterns()
 
@@ -81,12 +105,12 @@ public class Routes {
 
         if !optionalRoutePatterns.isEmpty {
             optionalRoutePatterns.forEach { pattern in
-                add(definition: Definition(pattern: pattern, priority: priority, handler: handler))
+                append(definition: Definition(pattern: pattern, priority: priority, handler: handler))
             }
             return
         }
 
-        add(definition: definition)
+        append(definition: definition)
     }
 
     public func add(patterns: [String], handler: Handler? = nil) {
@@ -125,15 +149,6 @@ public class Routes {
 
         var didRoute: Bool = false
 
-        var options: Request.Options = []
-
-        if shouldDecodePlusSymbols {
-            options.insert(.decodePlusSymbols)
-        }
-        if alwaysTreatsHostAsPathComponent {
-            options.insert(.treatHostAsPathComponent)
-        }
-
         let request: Request = Request(url: url, options: options, additionalParams: parameters)
 
         let routes: [Definition] = _definitions
@@ -158,10 +173,12 @@ public class Routes {
             print("Could not find a matching route")
         }
 
-        if let unmatchedURLHandler = unmatchedHandler, !didRoute && executeRouteBlock {
-            unmatchedURLHandler(self, url, parameters)
-        }
-
         return didRoute
     }
+}
+
+@discardableResult
+public func << (left: Routes, right: Definition) -> Routes {
+    left.add(definition: right)
+    return left
 }

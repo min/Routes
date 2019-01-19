@@ -8,6 +8,7 @@
 
 import Foundation
 
+@dynamicMemberLookup
 public class Router {
     public static let defaultScheme: String = "__scheme__"
 
@@ -48,11 +49,15 @@ public class Router {
         set {}
     }
 
+    public subscript(dynamicMember member: String) -> Routes {
+        return self[member]
+    }
+
     public func routes(for resource: Resource) -> Routes {
         guard let scheme = resource.url?.scheme else {
             return self.default
         }
-        return mapping[scheme] ?? self.default
+        return mapping[scheme, default: self.default]
     }
 
     /// Returns a routing namespace for the given scheme

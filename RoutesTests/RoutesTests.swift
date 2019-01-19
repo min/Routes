@@ -86,6 +86,33 @@ class RoutesTests: XCTestCase {
         XCTAssertEqual(schemeRoutes?[1].pattern, "/scheme2")
     }
 
+    func testAllRoutesInfixOperator() {
+        let handler = defaultRouteHandler
+
+        router.default << "/global1".route(handler: handler)
+        router.default << "/global2".route(handler: handler)
+        router.default << "/global3".route(handler: handler)
+        router.scheme << "/scheme1".route(handler: handler)
+        router.scheme << "/scheme2".route { params in
+            handler(params)
+        }
+
+        let definitionMapping: [String: [Definition]] = router.definitionMapping
+
+        let globalRoutes: [Definition]? = definitionMapping[Router.defaultScheme]
+
+        XCTAssertEqual(globalRoutes?.count, 3)
+        XCTAssertEqual(globalRoutes?[0].pattern, "/global1")
+        XCTAssertEqual(globalRoutes?[1].pattern, "/global2")
+        XCTAssertEqual(globalRoutes?[2].pattern, "/global3")
+
+        let schemeRoutes: [Definition]? = definitionMapping["scheme"]
+
+        XCTAssertEqual(schemeRoutes?.count, 2)
+        XCTAssertEqual(schemeRoutes?[0].pattern, "/scheme1")
+        XCTAssertEqual(schemeRoutes?[1].pattern, "/scheme2")
+    }
+
     func testRouting() {
         let handler = defaultRouteHandler
 
@@ -334,6 +361,26 @@ class RoutesTests: XCTestCase {
         assertScheme("namespaceTest2")
     }
 
+    func testDynamicMemberLookupSchemes() {
+        let handler = defaultRouteHandler
+
+        router.default.add(pattern: "/test", handler: handler)
+        router.namespaceTest1.add(pattern: "/test", handler: handler)
+        router.namespaceTest2.add(pattern: "/test", handler: handler)
+
+        route(urlString: "tests://test")
+        assertAnyRouteMatched()
+        assertScheme(Router.defaultScheme)
+
+        route(urlString: "namespaceTest1://test")
+        assertAnyRouteMatched()
+        assertScheme("namespaceTest1")
+
+        route(urlString: "namespaceTest2://test")
+        assertAnyRouteMatched()
+        assertScheme("namespaceTest2")
+    }
+
     func testFallbackToGlobal() {
         let handler = self.defaultRouteHandler
 
@@ -387,7 +434,7 @@ class RoutesTests: XCTestCase {
 
     func testPercentEncoding() {
         router.default.add(pattern: "/user/view/:userID", handler: defaultRouteHandler)
-        router.default.shouldDecodePlusSymbols = false
+        router.default.options.remove(.decodePlusSymbols)
 
         route(urlString: "tests://user/view/min%21kim")
         assertAnyRouteMatched()
@@ -477,7 +524,7 @@ class RoutesTests: XCTestCase {
 
     func testDecodePlusSymbols() {
         router.default.add(pattern: "/user/view/:userID", handler: defaultRouteHandler)
-        router.default.shouldDecodePlusSymbols = true
+        router.default.options.insert(.decodePlusSymbols)
 
         route(urlString: "tests://user/view/min%2Bkim")
         assertAnyRouteMatched()
@@ -498,8 +545,7 @@ class RoutesTests: XCTestCase {
         assertAnyRouteMatched()
         assertParameterCount(2)
         assertParameter(key: "people", value: ["min kim", "foo bar"])
-
-        router.default.shouldDecodePlusSymbols = false
+        router.default.options.remove(.decodePlusSymbols)
 
         route(urlString: "tests://user/view/min%2Bkim")
         assertAnyRouteMatched()
@@ -642,7 +688,7 @@ class RoutesTests: XCTestCase {
 
         router.default.add(pattern: "/sign_in", handler: handler)
         router.default.add(pattern: "/path/:pathid", handler: handler)
-        router.default.alwaysTreatsHostAsPathComponent = false
+        router.default.options.remove(.treatHostAsPathComponent)
 
         route(urlString: "https://www.mydomain.com/sign_in")
         assertAnyRouteMatched()
@@ -653,7 +699,7 @@ class RoutesTests: XCTestCase {
         assertPattern("/path/:pathid")
         assertParameter(key: "pathid", value: "3")
 
-        router.default.alwaysTreatsHostAsPathComponent = true
+        router.default.options.insert(.treatHostAsPathComponent)
 
         route(urlString: "https://www.mydomain2.com/sign_in")
         assertNoLastMatch()

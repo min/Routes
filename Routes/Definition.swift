@@ -179,3 +179,9 @@ extension Definition: Equatable, Hashable {
         hasher.combine(patternPathComponents)
     }
 }
+
+extension String {
+    public func route(priority: Int = 0, handler: Routes.Handler? = nil) -> Definition {
+        return Definition(pattern: self, priority: priority, handler: handler)
+    }
+}
