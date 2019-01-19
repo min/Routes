@@ -1,5 +1,6 @@
 Routes 🗺
 ========
+[![Build Status](https://travis-ci.org/min/Routes.svg?branch=master)](https://travis-ci.org/min/Routes)
 
 This library is a Swift port/fork of the popular Objective-C library [JLRoutes](https://www.github.com/joeldev/JLRoutes). Much ❤️ and credit goes to [joeldev](https://www.github.com/joeldev) for creating such a delightful routing library.
 
@@ -10,7 +11,7 @@ Routes is available for installation using Carthage (add `github "min/Routes"` t
 
 ### Requirements ###
 - iOS 9.0+ / tvOS 9.0+ / watchOS 2.0+
-- Swift 4
+- Swift 4.2
 
 ### Getting Started ###
 
