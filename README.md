@@ -9,7 +9,20 @@ This library is a Swift port/fork of the popular Objective-C library [JLRoutes](
 Routes is a pure-Swift URL routing library with a simple block-based API. It is designed to make it very easy to handle complex URL schemes in your application with minimal code. 
 
 ### Installation ###
-Routes is available for installation using Carthage (add `github "min/Routes"` to your `Cartfile`).
+
+#### [Carthage](https://github.com/Carthage/Carthage) (recommended)
+
+Add **Routes** to your `Cartfile`:
+```
+github "min/Routes"
+```
+
+#### CocoaPods
+
+Add **Routes** to your `Podfile`:
+```
+pod 'Routes'
+```
 
 ### Requirements ###
 - iOS 9.0+ / tvOS 9.0+ / watchOS 2.0+
