@@ -99,13 +99,13 @@ router.default["/global"] = { parameters in
 }
 ```
 
-and then try to route the URL `thing://global`, it would not match because that route has not been declared within the `thing` scheme but has instead been declared within the global scheme (which we'll assume is how the developer wants it). However, you can easily change this behavior by setting the following property to `true`:
+and then try to route the URL `alpha://global`, it would not match because that route has not been declared within the `alpha` scheme but has instead been declared within the global scheme (which we'll assume is how the developer wants it). However, you can easily change this behavior by setting the following property to `true`:
 
 ```swift
-router["thing"].shouldFallback = true
+router.alpha.shouldFallback = true
 ```
 
-This tells Routes that if a URL cannot be routed within the `thing` scheme (aka, it starts with `thing:` but no appropriate route can be found), try to recover by looking for a matching route in the global routes scheme as well. After setting that property to `true`, the URL `thing://global` would be routed to the `/global` handler block.
+This tells Routes that if a URL cannot be routed within the `alpha` scheme (aka, it starts with `alpha:` but no appropriate route can be found), try to recover by looking for a matching route in the global routes scheme as well. After setting that property to `true`, the URL `alpha://global` would be routed to the `/global` handler block.
 
 
 ### Wildcards ###
