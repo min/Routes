@@ -56,7 +56,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 After adding a route for `/user/view/:user_id`, the following call will cause the handler block to be called with a dictionary containing `{"user_id": "min"}`:
 
 ```swift
-router.route(resource: "myapp://user/view/min")
+router.route(to: "myapp://user/view/min")
 ```
 
 ### Handler Block Chaining ###
@@ -78,12 +78,12 @@ router.default["foo"] = { parameters in
     return true
 }
 
-router["thing"]["foo"] = { parameters in
+router.thing["foo"] = { parameters in
     // This block is called for thing://foo
     return true
 }
 
-router["stuff"]["foo"] = { parameters in
+router.stuff["foo"] = { parameters in
     // This block is called for stuff://foo
     return true
 }
