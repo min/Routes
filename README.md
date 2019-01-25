@@ -73,18 +73,18 @@ Routes supports setting up routes within a specific URL scheme. Routes that are 
 ```swift
 let router = Router()
 
-router.default["foo"] = { parameters in
-    // This block is called if the scheme is not 'thing' or 'stuff' (see below)	
+router.default["home"] = { parameters in
+    // This block is called if the scheme is not 'alpha' or 'beta' (see below)	
     return true
 }
 
-router.thing["foo"] = { parameters in
-    // This block is called for thing://foo
+router.alpha["home"] = { parameters in
+    // This block is called for alpha://home
     return true
 }
 
-router.stuff["foo"] = { parameters in
-    // This block is called for stuff://foo
+router.beta["home"] = { parameters in
+    // This block is called for beta://home
     return true
 }
 ```
