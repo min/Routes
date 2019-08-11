@@ -62,7 +62,7 @@ public class Routes {
     }
 
     private func remove(definition: Definition) {
-        guard let index = _definitions.index(of: definition) else {
+        guard let index = _definitions.firstIndex(of: definition) else {
             return
         }
         _definitions.remove(at: index)
