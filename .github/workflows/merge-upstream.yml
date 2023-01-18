@@ -1,0 +1,25 @@
+name: Merge upstream branches
+
+on:
+  schedule:
+    - cron:  '0 8 * * 6'
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  merge:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Merge upstream
+        run: |
+          git config --global user.name 'CipherCit'
+          git config --global user.email '18242859+CipherCit@users.noreply.github.com'
+
+          git pull --unshallow
+
+          git remote add upstream https://github.com/min/Routes.git
+          git fetch upstream
+
+          git checkout master
+          git merge --no-edit upstream/master
+          git push origin master
